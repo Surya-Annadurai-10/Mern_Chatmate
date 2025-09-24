@@ -38,7 +38,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="w-[100%] shadow-2xl px-10 h-[7vh] flex items-center justify-between">
+    <div className="w-[100%] sticky right-0  top-0 z-50 backdrop-blur-2xl shadow-2xl px-10 h-[7vh] flex items-center justify-between">
       <div className="flex  items-center">
         {isChatPage && (
           <>
@@ -67,6 +67,7 @@ const NavBar = () => {
               return (
               
                   <button 
+                  key={themes.label}
                   onClick={() => setTheme(themes.name)}
                   className=" w-full cursor-pointer hover:bg-primary/10 px-4 py-3 rounded-xl flex items-center gap-3 transition-colors">
                     {" "}

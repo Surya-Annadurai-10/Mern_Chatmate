@@ -6,7 +6,7 @@ import { upstreamClient } from "../lib/streamChat.js";
 export const LoginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email , "email" , password , "password");
+    // console.log(email , "email" , password , "password");
     
     //if email and password is empty
     if (!email || !password)
@@ -59,17 +59,17 @@ export const LoginController = async (req, res) => {
 export const SignupController = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    console.log({ username, email, password }, "Signup data");
+    // console.log({ username, email, password }, "Signup data");
 
     if (!username) {
-      console.log(username, "username error");
+      // console.log(username, "username error");
 
       return res
         .status(401)
         .json({ success: false, message: "username should not be empty" });
     }
     if (password.length < 6){
-      console.log(password.length , "password lenght error" );
+      // console.log(password.length , "password lenght error" );/
       
       return res.status(401).json({
         success: false,

@@ -11,10 +11,10 @@ const Layout = () => {
   return (
     <div
     data-theme={theme}
-    className='flex min-h-[100vh] w-[100%] '>
+    className='flex  h-[100vh] w-[100%] '>
         <SideBar />
-        <div className='w-[100%] h-full'>
-            <NavBar className="w-full h-[10vh]" />
+        <div className='w-[100%] relative overflow-y-scroll h-full'>
+            <NavBar className="w-full  h-[10vh]" />
             <Outlet />
         </div>
     </div>

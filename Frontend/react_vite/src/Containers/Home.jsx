@@ -19,7 +19,7 @@ import NoFriends from "../Components/NoFriends";
 
 const Home = () => {
   const queryClient = useQueryClient();
-  const [outgoingFriendReqs, setOutgoingFriendReqs] = useState(new Set());
+  const [OutgoingFriendReqsIDs, setOutgoingFriendReqsIDs] = useState(new Set());
   const { data: friendsObj = { friends: [] }, isLoading: getFriendsLoading } =
     useQuery({
       queryKey: ["friends"],
@@ -36,6 +36,7 @@ const Home = () => {
     queryKey: ["outgoing-requests"],
     queryFn: getOutgoingFriendRequests,
   });
+        console.log(outgoingFriendRequests , "outgoingFriendRequests");
 
   const { mutate: sendRequestsMutation, isPending } = useMutation({
     mutationFn: sendFriendRequest,
@@ -45,17 +46,22 @@ const Home = () => {
 
   useEffect(() => {
     const outgoingIDs = new Set();
-    if (outgoingFriendReqs && outgoingFriendReqs.length > 0) {
-      outgoingFriendReqs.forEach((req) => {
+    if (outgoingFriendRequests?.data && outgoingFriendRequests?.data.length > 0) {
+      outgoingFriendRequests.data.forEach((req) => {
         outgoingIDs.add(req.recipient._id);
-        setOutgoingFriendReqs(outgoingIDs);
+        console.log("INSIDE USEEFFECT HOME");
+        
+        console.log(req.recipient._id , "req.recipient._id");
+        
       });
+      setOutgoingFriendReqsIDs(outgoingIDs);
     }
-  }, [outgoingFriendReqs]);
+  }, [outgoingFriendRequests]);
 
   console.log(friendsObj, "Friends");
-  console.log(recommendedFriends, "recommendedFriends");
-  console.log(outgoingFriendRequests, "outgoingFriendRequests");
+  // console.log(OutgoingFriendReqsIDs, "OutgoingFriendReqsIDs");
+  // console.log(recommendedFriends, "recommendedFriends");
+  // console.log(outgoingFriendRequests, "outgoingFriendRequests");
 
   return (
     <div className="p-5">
@@ -100,7 +106,7 @@ const Home = () => {
             {
             recommendedFriends.map(user =>{
               console.log(user , "user");
-              return <FriendsList key={user.username} {...user} recommended = {true} />
+              return <FriendsList sendRequestsMutation ={sendRequestsMutation} isPending= {isPending} OutgoingFriendReqsIDs={OutgoingFriendReqsIDs}  key={user.username} {...user} recommended = {true} />
             })
           }
         </div>

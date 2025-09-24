@@ -10,7 +10,7 @@ export const ProtectedRoute = async (req, res, next) => {
       .status(401)
       .json({ success: false, message: "No token Present" });
 
-  console.log(cookie, "token");
+  // console.log(cookie, "token");
 
   const result = jwt.verify(cookie, process.env.JWT_SECRET);
   if (!result)
@@ -22,7 +22,7 @@ export const ProtectedRoute = async (req, res, next) => {
   try {
     const findUser = await UserModel.find({ email: result.email });
     req.user = findUser[0];
-    console.log(req.user, "req user");
+    // console.log(req.user, "req user");
 
     next();
   } catch (error) {

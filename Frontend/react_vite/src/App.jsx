@@ -63,7 +63,7 @@ function App() {
         },
         {
           path: "/notification",
-          element: isAuthenticated ? (
+          element: isAuthenticated && isOnboarded ? (
             <Notification />
           ) : (
             <Navigate to={"/login"} />
