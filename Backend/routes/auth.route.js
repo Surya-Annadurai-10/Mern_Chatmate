@@ -9,4 +9,15 @@ router.post("/signup" , SignupController);
 router.post("/logout" , LogoutController);
 router.post("/onboarding",ProtectedRoute , OnboardingController);
 
+
+
+
+router.get("/me",ProtectedRoute, (req , res)=>{
+    return res.status(200).json ({
+      message : "from me",
+        success : true,
+        user : req.user
+    })
+})
+
 export default router;

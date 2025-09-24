@@ -6,6 +6,8 @@ import { upstreamClient } from "../lib/streamChat.js";
 export const LoginController = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(email , "email" , password , "password");
+    
     //if email and password is empty
     if (!email || !password)
       return res
@@ -57,29 +59,40 @@ export const LoginController = async (req, res) => {
 export const SignupController = async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    console.log({ username, email, password }, "Signup data");
 
-    if (!username)
+    if (!username) {
+      console.log(username, "username error");
+
       return res
         .status(401)
         .json({ success: false, message: "username should not be empty" });
-    if (password.length < 6)
+    }
+    if (password.length < 6){
+      console.log(password.length , "password lenght error" );
+      
       return res.status(401).json({
         success: false,
         message: "pasword should be more 6 charcters",
+      
       });
-
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
+      console.log(email , "email error");
+      
       return res.status(400).json({ message: "Invalid email format" });
     }
 
     const user = await UserModel.findOne({ email: email });
-    if (user)
+    if (user){
+      console.log(user , "user already exists");
+      
       return res
         .status(401)
         .json({ success: false, message: "This email is already an user" });
-
+    }
     const idx = Math.floor(Math.random() * 100) + 1;
     const profilePic = `https://avatar.iran.liara.run/public/${idx}.png`;
 
@@ -146,60 +159,55 @@ export const LogoutController = (req, res) => {
 };
 
 export const OnboardingController = async (req, res) => {
+  const { username, learningLanguage, location, bio, nativeLanguage } =
+    req.body;
 
+  if (!username || !learningLanguage || !location || !bio || !nativeLanguage) {
+    return res.status(401).json({
+      success: false,
+      message: "All fields are Required",
+      emptyFields: [
+        !username && "username",
+        !learningLanguage && "learningLanguage",
+        !location && "location",
+        !bio && "bio",
+        !nativeLanguage && "nativeLanguage",
+      ].filter(Boolean),
+    });
+  }
 
-const {username , learningLanguage , location , bio , nativeLanguage} = req.body;
-
-if(!username || !learningLanguage || !location || !bio || !nativeLanguage ){
-  return res.status(401).json({
-    success : false,
-    message : "All fields are Required",
-    emptyFields : [
-      !username && "username",
-      !learningLanguage && "learningLanguage",
-      !location && "location",
-      !bio && "bio",
-      !nativeLanguage && "nativeLanguage",
-    ].filter(Boolean)
-  })
-}
-  
-  
   try {
     const userData = req.user;
-// console.log(userData , "userData");
+    // console.log(userData , "userData");
 
     if (!userData) {
       return res.status(401).json({
         success: false,
         message: "User Not found",
       });
-    };
+    }
 
     const updatedUser = await UserModel.findByIdAndUpdate(
       { _id: userData._id },
-     {
-      ...req.body,
-      onBoarded : true
-    },
+      {
+        ...req.body,
+        onBoarded: true,
+      },
       { new: true }
     );
 
     // console.log(updatedUser , "UpdatedUser");
-    
 
     try {
       await upstreamClient({
-        id :updatedUser._id,
-        name : updatedUser.username,
-        image : updatedUser.profilePicture || ""
-      })
+        id: updatedUser._id,
+        name: updatedUser.username,
+        image: updatedUser.profilePicture || "",
+      });
 
-      console.log("Upstreamed successfully for ",updatedUser._id);
-      
+      console.log("Upstreamed successfully for ", updatedUser._id);
     } catch (error) {
-       console.log("Error while upstreaming" , error);
-       
+      console.log("Error while upstreaming", error);
     }
 
     res.status(200).json({
@@ -210,9 +218,7 @@ if(!username || !learningLanguage || !location || !bio || !nativeLanguage ){
   } catch (error) {
     res.status(401).json({
       success: false,
-      error: error.message
+      error: error.message,
     });
   }
-
-
 };

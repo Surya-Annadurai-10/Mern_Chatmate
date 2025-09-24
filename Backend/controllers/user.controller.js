@@ -7,7 +7,7 @@ export const GetFriendsController = async (req, res) => {
       .select("friends")
       .populate(
         "friends",
-        "username nativeLanguage learningLanguage profilePicture "
+        "username nativeLanguage learningLanguage profilePicture bio "
       );
 
       return res.status(200).json(getFriends);
@@ -27,12 +27,14 @@ export const GetRecommendedFriendsController = async (req, res) => {
     const recommended = await UserModel.find({
       $and: [
         { _id: { $ne: req.user._id } }, //exclude current user id
-        { $id: { $nin: req.user.friends } }, // exclude current user's friends
-        { isOnboarded: true }, // selecting only who is onBoarded
+        { _id: { $nin: req.user.friends } }, // exclude current user's friends
+        { onBoarded: true }, // selecting only who is onBoarded
       ],
     });
 
+    console.log(recommended , "recommended");
     return res.status(200).json(recommended);
+    
   } catch (error) {
     return res.status(401).json({
       success: false,
