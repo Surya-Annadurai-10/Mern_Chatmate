@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route.js";
 import cors from "cors"
+import chatRouter from "./routes/chat.route.js";
 
 const app = express();
 app.use(cors({
@@ -21,6 +22,7 @@ const PORT = process.env.PORT;
 // app.use("/api" , router);
 app.use("/api/auth", router);
 app.use("/api/user",userRouter);
+app.use("/api/connect",chatRouter);
 
 mongoose
   .connect(process.env.MONGO_DB_URL)

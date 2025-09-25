@@ -70,6 +70,12 @@ export const acceptFriendRequestFn = async (reqId) =>{
     const res = await axiosInstance.put(`/user/friend-request/${reqId}/accept`  );
     return res.data;
 }
+export const getStreamClientTokenFn = async () =>{
+    const res = await axiosInstance.get(`/connect/chat`  );
+    console.log(res.data , "getStreamClientToken");
+    return res.data;
+    
+}
 
 
 

@@ -8,8 +8,8 @@ import SignUp from "./Containers/SignUp";
 import Login from "./Containers/Login";
 import Home from "./Containers/Home";
 import Notification from "./Containers/Notification";
-import Call from "./Containers/Call";
-import Chat from "./Containers/Chat";
+import CallPage from "./Containers/CallPage";
+import ChatPage from "./Containers/ChatPage";
 import Onboarding from "./Containers/Onboarding";
 import { useAuthUser } from "./hooks/useAuthUser";
 import PageLoader from "./Components/PageLoader";
@@ -23,13 +23,13 @@ function App() {
   const { isLoading, authUser } = useAuthUser();
   console.log("authData", { authData });
   authData = authUser?.user;
-  console.log({ authData }, "authData");
-  console.log({ isLoading }, "isLoading");
+  // console.log({ authData }, "authData");
+  // console.log({ isLoading }, "isLoading");
 
   const isAuthenticated = Boolean(authData);
   const isOnboarded = authData?.onBoarded;
-  console.log(isAuthenticated, "IsAuthenticated");
-  console.log(isOnboarded, "isOnboarded");
+  // console.log(isAuthenticated, "IsAuthenticated");
+  // console.log(isOnboarded, "isOnboarded");
 
   const router = createBrowserRouter([
     {
@@ -77,12 +77,12 @@ function App() {
     },
 
     {
-      path: "/call",
-      element: isAuthenticated ? <Call /> : <Navigate to={"/login"} />,
+      path: "/call/:id",
+      element: isAuthenticated && isOnboarded ? <CallPage /> : <Navigate to={"/login"} />,
     },
     {
-      path: "/chat",
-      element: isAuthenticated ? <Chat /> : <Navigate to={"/login"} />,
+      path: "/chat/:id",
+      element: isAuthenticated && isOnboarded ? <ChatPage /> : <Navigate to={"/login"} />,
     },
     {
       path: "/onboarding",

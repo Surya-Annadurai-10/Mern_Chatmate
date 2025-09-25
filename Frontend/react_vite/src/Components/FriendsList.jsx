@@ -1,6 +1,7 @@
 import React from "react";
 import { LANGUAGE_TO_FLAG } from "../constants";
 import { CheckCircleIcon, LocateIcon, LocateOff, LocationEdit, MapPinIcon, User2Icon, UserPlus, Users2, Users2Icon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const FriendsList = (props) => {
   // console.log(props, "props");
@@ -64,9 +65,11 @@ const FriendsList = (props) => {
         </>
       ) : (
         <>
-          <button className="w-full p-4 py-3 my-2 border cursor-pointer hover:bg-primary hover:text-black rounded-full">
+         <Link to={`/chat/${props._id}`}>
+          <button  className="w-full p-4 py-3 my-2 border cursor-pointer hover:bg-primary hover:text-black rounded-full">
             Message
           </button>
+         </Link>
         </>
       )}
     </div>
