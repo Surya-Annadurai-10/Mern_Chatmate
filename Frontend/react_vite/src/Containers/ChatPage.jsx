@@ -20,6 +20,7 @@ import toast, { ToastBar } from "react-hot-toast";
 import NavBar from "./NavBar";
 import { useThemeStore } from "../store/useThemeStore";
 import CallButton from "../Components/CallButton";
+import PageLoader from "../Components/PageLoader";
 
 const ChatPage = () => {
   const {theme} = useThemeStore() 
@@ -104,7 +105,7 @@ const ChatPage = () => {
 
 
   if (loading || !chatClient || !channel) {
-    return <div>Loading Chat...</div>;
+    return <PageLoader />
   }
 
 

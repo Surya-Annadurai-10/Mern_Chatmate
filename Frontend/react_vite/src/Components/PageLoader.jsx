@@ -9,12 +9,15 @@ import {
 import React from "react";
 import { useThemeStore } from "../store/useThemeStore";
 
-const PageLoader = () => {
+const PageLoader = ({connecting}) => {
   const {theme} = useThemeStore();
 
   return (
-    <div data-theme={theme} className="w-full h-screen bg-black grid place-items-center">
+    <div data-theme={theme} className="w-full h-screen bg-black flex items-center justify-center flex-col gap-2">
       <Loader className="animate-spin" />
+      {
+       connecting &&  <p>Connecting...</p>
+      }
     </div>
   );
 };

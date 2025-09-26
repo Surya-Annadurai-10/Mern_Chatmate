@@ -17,7 +17,7 @@ import { useThemeStore } from "../store/useThemeStore";
 const NavBar = () => {
   const location = useLocation();
   const isChatPage = location.pathname.startsWith("/chat");
-  const { authUser } = useAuthUser();
+  const { authUser  } = useAuthUser();
   const queryClient = useQueryClient();
   const {theme , setTheme} = useThemeStore();
   const {
@@ -77,9 +77,10 @@ const NavBar = () => {
                    <div className="w-[75%]  flex items-center justify-between">
                     <span>{themes.label}</span>
                     <div className="flex items-center gap-1 justify-center">
-                      {themes.colors.map((col) => {
+                      {themes.colors.map((col,i) => {
                         return (
                           <div
+                          key={`${col}_${i}`}
                             style={{ backgroundColor: col }}
                             className={` w-[8px] rounded-full h-[8px]`}
                           ></div>
